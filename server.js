@@ -13,6 +13,5 @@ mongoose.connect(dbURL,
     .catch((err) => console.log(err));
 
 
-
 app.use(cors());
 app.listen(process.env.serverPort);
