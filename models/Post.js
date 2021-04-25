@@ -10,6 +10,10 @@ const postSchema = new Schema({
     like: Number,
     dislike: Number,
     visitDate: String,
+    comments: [{
+        name: String,
+        text: String,
+    }],
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
