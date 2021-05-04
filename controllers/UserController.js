@@ -3,32 +3,30 @@ const router = express.Router();
 const userService = require("../services/UserService.js");
 const bcrypt = require("bcrypt");
 
-
-router.get('/api/login', authUser, async (req, res) => { });
+router.post('/api/login', authUser, async (req, res) => { });
 router.post('/api/register', signUp, async (req, res) => { });
 
-
-
 async function authUser(req, res) {
-    const user = await userService.fetchUserObject({ email: req.body.email });
+    const user = await userService.fetchUserObject({ email: req.body.payload.email });
     if (user == null) {
         res.status(401).send("Invalid email and password");
     }
     try {
-        const result = await bcrypt.compare(req.body.password, user.password);
+        const result = await bcrypt.compare(req.body.payload.password, user.password);
         if (result) {
-            res.status(200).send(user.userName);
+            res.status(200).send({ userName: user.userName, id: user._id });
+        } else {
+            res.status(401).send("Invalid email and password");
         }
     } catch {
         res.status(401).send("Invalid email and password");
     }
-    res.status(401).send("Invalid email and password"); 
 }
 
 async function signUp(req, res) {
-    if (req.body.password == null
-        || req.body.email == null
-        || req.body.userName == null) {
+    if (req.body.password == null ||
+         req.body.email == null ||
+         req.body.userName == null) {
         return res.status(400).send("Some information are missing");
     }
     const email = await userService.fetchUserObject({ email: req.body.email });

@@ -7,6 +7,10 @@ module.exports = {
             posts[i].__v = undefined;
         }
         return posts;
+    },
+    addPost: async (data, id) => {
+        const post = new Post(data);
+        post.owner = id;
+        return await post.save();
     }
-
 }
