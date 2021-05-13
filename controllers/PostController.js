@@ -4,6 +4,7 @@ const postService = require('../services/PostService.js');
 
 router.get('/api/fetchposts', sendPosts, async (req, res) => { });
 router.post('/api/addpost', addPost, async (req, res) => { });
+router.post('/api/updatepost', updatePost, async (req, res) => { });
 
 async function sendPosts(req, res) {
     try {
@@ -14,11 +15,10 @@ async function sendPosts(req, res) {
     }
 }
 
-//JWT to be added later
 async function addPost(req, res) {
     try {
         if (req.body.postData == null) {
-            return res.status(400).send("The post information in the body is miising");
+            return res.status(400).send("The post information in the body is missing");
         }
         const post = req.body.postData;
         const ownerId = req.body.postData.id;
@@ -31,6 +31,19 @@ async function addPost(req, res) {
     }
 }
 
-
+async function updatePost(req, res) {
+    const data = req.body.data;
+    try {
+        if (data == null || data == undefined) {
+            return res.status(400).send("The post information in the body is missing");
+        }
+        const id = data.id;
+        await postService.updatePost(data, id);
+        res.status(200).send();
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Make sure that your request is correct");
+    }
+}
 
 module.exports = router;

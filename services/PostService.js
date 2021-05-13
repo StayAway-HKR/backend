@@ -12,5 +12,10 @@ module.exports = {
         const post = new Post(data);
         post.owner = id;
         return await post.save();
+    },
+    updatePost: async (data, id) => {
+        const post = await Post.findOne({ _id: id });
+        post.overwrite(data);
+        await post.save();
     }
 }
