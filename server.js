@@ -8,8 +8,7 @@ const app = express();
 const UserController = require('./controllers/UserController.js');
 const PostController = require('./controllers/PostController.js');
 
-
-const dbURL = "mongodb+srv://" + process.env.db_username + ":" + process.env.db_password +
+const dbURL = "mongodb+srv://" + "hkr" + ":" + "hkr1234" +
     "@cluster0.j049z.mongodb.net/stay-away?retryWrites=true&w=majority";
 
 mongoose.connect(dbURL,
@@ -23,4 +22,4 @@ app.use(bodyParser.json());
 app.use(UserController);
 app.use(PostController);
 
-app.listen(process.env.serverPort);
+app.listen(process.env.serverPort || 3000);
