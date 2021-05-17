@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const app = express();
-
+const SERVER_PORT = 3000;
 const UserController = require('./controllers/UserController.js');
 const PostController = require('./controllers/PostController.js');
 
@@ -22,4 +22,6 @@ app.use(bodyParser.json());
 app.use(UserController);
 app.use(PostController);
 
-app.listen(process.env.serverPort || 3000);
+app.listen(process.env.PORT || SERVER_PORT, () => {
+    console.log("Server listening on port: " + SERVER_PORT);
+})
